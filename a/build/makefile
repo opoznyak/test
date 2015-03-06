@@ -1,10 +1,18 @@
-PWD = $(shell pwd)
+CC = g++
+CXXFLAGS = -std=gnu++11
 
-HEADERS = -I $(PWD)/../include -I $(PWD)/../../ssh/include
-LIBS = -L $(PWD)/../../ssh/build
+HEADERS = -I ../include -I ../../ssh/include
+SRC_DIR = ../src
+LIBS = -L ../../ssh/build
 
-all: libssh_new.so
-	g++ -std=gnu++11 $(HEADERS) ../src/a.cpp $(LIBS) -lssh_new -o a
+all: a
+
+a: libssh_new.so
+	$(CC) $(CXXFLAGS) $(HEADERS) ../src/a.cpp $(LIBS) -lssh_new -o a
+
+libssh_new.so:
+	$(MAKE) -C ../../ssh/build	
+	
 clean:
-	$(MAKE) -C $(PWD)/../../ssh/build clean	
 	rm a
+	$(MAKE) -C ../../ssh/build clean

@@ -26,11 +26,13 @@ class SSH_utils	{
 
 		int verify_knownhost();
 	public:
-		SSH_utils (const std::string &user, const std::string &host, const std::string &password);
+		SSH_utils (const std::string &user,
+				   const std::string &host,
+				   const std::string &password);
 
 		void enable_print_output();
 		void reader();
-		int execute_command(std::string, std::string, size_t);
+		int execute_command(const std::string &, const std::string &, size_t);
 		std::string get_buffer();
 		void shutdown();
 		void disconnect ();

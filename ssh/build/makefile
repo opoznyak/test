@@ -9,10 +9,10 @@ OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,%.o,$(SOURCES))
 all: libssh_new.so
 
 libssh_new.so: objects
-	$(CC) $(CXXFLAGS) $(OBJECTS) -shared -o libssh_new.so
+	$(CC) $(CXXFLAGS) $(OBJECTS) -shared -lssh -o libssh_new.so
 
 objects:
-	$(foreach cpp,$(SOURCES),$(CC) $(CXXFLAGS) $(HEADERS) $(cpp) -lssh -c -fpic -o $(patsubst $(SRC_DIR)/%.cpp,%.o,$(cpp);))
+	$(foreach cpp,$(SOURCES),$(CC) $(CXXFLAGS) $(HEADERS) $(cpp) -c -fpic -o $(patsubst $(SRC_DIR)/%.cpp,%.o,$(cpp));)
 	
 clean:
 	rm $(OBJECTS) libssh_new.so

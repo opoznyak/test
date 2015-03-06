@@ -1,28 +1,6 @@
-#include <iostream>
-#include <libssh/libssh.h>
-#include <cstring>
-#include <queue>
-#include <thread>
-#include <atomic>
-#include <chrono>
+#include "SSH_utils.h"
 
-class SSH_utils	{
-		const std::string user_;
-		const std::string host_;
-		const std::string password_;
-
-		ssh_session my_ssh_session_;
-		ssh_channel channel_;
-
-		std::atomic<bool> shutdown_flag_;
-		std::queue<char> q_buffer_;
-
-		bool print_output_;
-		std::string buf_;
-
-		int verify_knownhost();
-	public:
-		SSH_utils (const std::string &user, const std::string &host, const std::string &password):
+SSH_utils::SSH_utils (const std::string &user, const std::string &host, const std::string &password):
 			user_(user),
 			host_(host),
 			password_(password),
@@ -72,14 +50,6 @@ class SSH_utils	{
 				exit(EXIT_FAILURE);
 			}
 		}
-
-		void enable_print_output();
-		void reader();
-		int execute_command(std::string, std::string, size_t);
-		std::string get_buffer();
-		void shutdown();
-		void disconnect ();
-	};
 
 int SSH_utils::verify_knownhost()	{
 	int state = ssh_is_server_known(my_ssh_session_);
@@ -149,7 +119,7 @@ void SSH_utils::reader()	{
 	}
 }
 
-int SSH_utils::execute_command(std::string command, std::string string_to_wait, size_t timeout)
+int SSH_utils::execute_command(const std::string &command, const std::string &string_to_wait, size_t timeout)
 {
     char temp;
     buf_ = "";
